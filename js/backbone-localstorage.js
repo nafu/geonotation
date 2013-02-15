@@ -32,11 +32,12 @@ Backbone.LocalStorage = window.Store = function(name) {
   this.records = (store && store.split(",")) || [];
 };
 
-_.extend(Backbone.LocalStorage.prototype, {
+_.extend(Backbone.LocalStorage.prototype, Backbone.Events, {
 
   // Save the current state of the **Store** to *localStorage*.
   save: function() {
     this.localStorage().setItem(this.name, this.records.join(","));
+    this.trigger('update');
   },
 
   // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
