@@ -1,7 +1,8 @@
 var NotesApp = (function(){
   var App = {
     stores: {},
-    views: {}
+    views: {},
+    collections: {}
   };
 
   // Initialize localStorage Data Store
@@ -98,12 +99,33 @@ var NotesApp = (function(){
     }
   });
 
+  var NoteListItemView = Backbone.View.extend({
+    tagName: 'LI',
+    template: _.template($('#note-list-item-template').html()),
+
+    initialize: function(){
+      _.bindall(this, 'render');
+
+      this.model.bind('change', this.render);
+    },
+
+    render: function(){
+      $(this.el).html(this.template({note: this.model}));
+      return this;
+    }
+  });
+
   window.Note = Note;
 
-  $(document).ready(function(){
-    App.views.new_form = new NewFormView({
-      el: $('#new'),
-    });
+  App.collections.all_notes = new NoteList();
+
+  App.views.new_form = new NewFormView({
+    el: $('#new'),
+  });
+
+  App.views.list_alphabetical = new NoteListView({
+    el: $('#all_notes'),
+    collection: App.collections.all_notes
   });
 
   return App;
