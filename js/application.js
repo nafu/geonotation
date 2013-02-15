@@ -77,6 +77,30 @@ var NotesApp = (function(){
     }
   });
 
+  // Represents a listview page displaying a collection
+  // Each item is represented by a NoteListItemView
+  var NoteListView = Backbone.View.extend({
+
+    initialize: function(){
+      _.bindAll(this, 'addOne', 'addAll');
+
+      this.collection.bind('add', this.addOne);
+      this.collection.bind('refresh', this.addAll);
+
+      this.collection.fetch();
+    },
+
+    addOne: function(note){
+      var view = new NoteListItemView({model: note});
+      $(this.el).append(view.render().el);
+    },
+
+    addAll: function(){
+      $(this.el).empty();
+      this.collection.each(this.addOne);
+    }
+  });
+
   window.Note = Note;
 
   $(document).ready(function(){
