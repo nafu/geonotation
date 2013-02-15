@@ -83,7 +83,7 @@ var NotesApp = (function(){
       _.bindAll(this, 'addOne', 'addAll');
 
       this.collection.bind('add', this.addOne);
-      this.collection.bind('refresh', this.addAll);
+      this.collection.bind('reset', this.addAll);
 
       this.collection.fetch();
     },
