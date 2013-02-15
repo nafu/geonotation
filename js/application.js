@@ -37,6 +37,16 @@ var NotesApp = (function(){
         note = new Note();
       note.set(attrs);
       note.save();
+
+      // Stop browser from actually submitting the form
+      e.preventDefault();
+      // Stop jQuery Mobile from doing its form magic
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Close
+      $('.ui-dialog').dialog('close');
+      this.reset();
     },
 
     getAttributes: function(){
@@ -44,6 +54,11 @@ var NotesApp = (function(){
         title: this.$('form [name=title]').val(),
         body: this.$('form [name=body]').val(),
       }
+    },
+
+    reset: function(){
+      // Normal form.reset() would be
+      this.$('input, textarea').val('');
     }
   });
 
