@@ -47,9 +47,8 @@ var NotesApp = (function(){
     },
 
     createNote: function(e){
-      console.log('createNote called');
-      var attrs = this.getAttributes,
-        note = new Note();
+      var attrs = this.getAttributes();
+      note = new Note();
       note.set(attrs);
       note.save();
 
