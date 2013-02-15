@@ -23,8 +23,6 @@ var NotesApp = (function(){
 
   });
 
-  window.Note = Note;
-
   var NoteList = Backbone.Collection.extend({
     // This collection is composed of Note objects
     model: Note,
