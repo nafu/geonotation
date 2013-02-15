@@ -104,7 +104,7 @@ var NotesApp = (function(){
     template: _.template($('#note-list-item-template').html()),
 
     initialize: function(){
-      _.bindall(this, 'render');
+      _.bindAll(this, 'render');
 
       this.model.bind('change', this.render);
     },
