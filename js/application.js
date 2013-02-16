@@ -25,6 +25,39 @@ var NotesApp = (function(){
     // Returns true if the Note is tagged with location data
     isGeoTagged: function(){
       return this.get('latitude') && this.get('longitude');
+    },
+
+    // Creates a url for a map pinned with this Note's location
+    mapImageUrl: function(options){
+      // Using Google Static Maps API
+      // docs: http://code.google.com/apis/maps/documentation/staticmaps/
+
+      var base = "http://maps.google.com/maps/api/staticmap?"
+      var defaults = {
+        zoom: 14,
+        height: 500,
+        width: 500,
+        maptype: 'roadmap',
+        sensor: 'false'
+      }
+
+      // Update options with defaults
+      options = _.extend(defaults, options);
+
+      // Convert {width:400, height:300} to {size: "400x300"}
+      options.size = options.width + "x" + options.height;
+      delete options.height;
+      delete options.width;
+
+      // Add markers to parameters to add a blue pin to the map
+      var latlon = this.get('latitude') + "," + this.get('longitude');
+      options.markers = "color:blue|label:X|" + latlon;
+
+      // Center on this Note's location
+      options.center = latlon;
+
+      var url = base + $.param(options);
+      return url;
     }
 
   });

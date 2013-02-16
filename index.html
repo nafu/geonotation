@@ -75,6 +75,7 @@
       <%= note.get('body') %>
       <% if(note.isGeoTagged()){ %>
         <h3>Location</h3>
+        <img class="map" src="<%= note.mapImageUrl() %>">
         [<%= note.get('latitude') %>, <%= note.get('longitude') %>]
       <% } /*end if*/ %>
     </div>
