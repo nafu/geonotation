@@ -174,7 +174,7 @@ var NotesApp = (function(){
 
   App.collections.all_notes = new NoteList(null, {
     comparator: function(note){
-      return note.get('title');
+      return (note.get('title') || "").toLowerCase();
     }
   });
 
