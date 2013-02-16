@@ -119,6 +119,57 @@ var NotesApp = (function(){
     }
   });
 
+  // Container for NoteDetailView
+  // Respansible for generating each NoteDetailView
+  var NoteDetailList = Backbone.View.extend({
+    el: $('#note-detail-list'),
+
+    initialize: function(){
+      _.bindAll(this, 'addOne', 'addAll');
+
+      this.collection.bind('add', this.addOne);
+      this.collection.bind('reset', this.addAll);
+
+      this.collection.fetch();
+    },
+
+    addOne: function(note){
+      var view = new NoteDetailView({model: note});
+      $(this.el).append(view.render().el);
+
+      if('mobile' in $){
+        $.mobile.initializePage();
+      }
+    },
+
+    addAll: function(){
+      $(this.el).empty();
+      this.collection.each(this.addOne);
+    }
+  });
+
+  // Show Page
+  var NoteDetailView = Backbone.View.extend({
+    tagName: 'DIV',
+    template: _.template($('#note-detail-template').html()),
+
+    initialize: function(){
+      _.bindAll(this, 'render');
+
+      $(this.el).attr({
+        'data-role': 'page',
+        'id': "note_" + this.model.id
+      });
+      this.model.bind('change', this.render);
+    },
+
+    render: function(){
+      console.log('render');
+      $(this.el).html(this.template({note: this.model}));
+      return this;
+    }
+  });
+
   window.Note = Note;
 
   App.collections.all_notes = new NoteList();
@@ -129,6 +180,10 @@ var NotesApp = (function(){
 
   App.views.list_alphabetical = new NoteListView({
     el: $('#all_notes'),
+    collection: App.collections.all_notes
+  });
+
+  App.views.notes = new NoteDetailList({
     collection: App.collections.all_notes
   });
 

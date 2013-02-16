@@ -54,8 +54,22 @@
     </div>
   </div>
 
+  <!--  List of Notes  -->
+  <li id="note-detail-list">
+  </li>
+
   <script type="text/template" id="note-list-item-template">
     <a href="#note_<%= note.id %>"><%= note.get('title') %></a>
+  </script>
+
+  <script type="text/template" id="note-detail-template">
+    <div data-role="header">
+      <a href="#all" data-role="button" data-icon="arrow-l" data-rel="back">Back</a>
+      <h1><%= note.get('title') %></h1>
+    </div>
+    <div data-role="content">
+      <%= note.get('body') %>
+    </div>
   </script>
 
   <script src="js/jquery-1.8.2.js" type="text/javascript" charset="utf-8"></script>
