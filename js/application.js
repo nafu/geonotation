@@ -47,24 +47,43 @@ var NotesApp = (function(){
 
     createNote: function(e){
       var attrs = this.getAttributes();
-      note = new Note();
-      note.set(attrs);
-      note.save();
+      var note = new Note();
 
-      // Stop browser from actually submitting the form
-      e.preventDefault();
-      // Stop jQuery Mobile from doing its form magic
-      e.stopPropagation();
+      function create(){
+        note.set(attrs);
+        note.save();
 
-      // Close
-      $('.ui-dialog').dialog('close');
-      this.reset();
+        // Stop browser from actually submitting the form
+        e.preventDefault();
+        // Stop jQuery Mobile from doing its form magic
+        e.stopPropagation();
+
+        // Close
+        $('.ui-dialog').dialog('close');
+        this.reset();
+      }
+
+      if(attrs.locate == 'yes' && 'geolocation' in navigator) {
+        // Do geolocate
+        navigator.geolocation.getCurrentPosition(function(position){
+          // Handle Our Geolocation Results
+          if(position && position.coords){
+            attrs.latitude = position.coords.latitude;
+            attrs.longitude = position.coords.longitude;
+          }
+          create();
+        });
+      }else{
+        // save
+        create();
+      }
     },
 
     getAttributes: function(){
       return {
         title: this.$('form [name=title]').val(),
         body: this.$('form [name=body]').val(),
+        locate: this.$('form [name=locate]').val(),
       }
     },
 
@@ -163,7 +182,6 @@ var NotesApp = (function(){
     },
 
     render: function(){
-      console.log('render');
       $(this.el).html(this.template({note: this.model}));
       return this;
     }
