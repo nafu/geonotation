@@ -54,7 +54,6 @@ var NotesApp = (function(){
       // Stop browser from actually submitting the form
       e.preventDefault();
       // Stop jQuery Mobile from doing its form magic
-      e.preventDefault();
       e.stopPropagation();
 
       // Close
