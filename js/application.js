@@ -93,7 +93,7 @@ var NotesApp = (function(){
       $(this.el).append(view.render().el);
 
       if('mobile' in $){
-        $(this.el).listview('refresh')
+        $(this.el).listview('refresh');
       }
     },
 
