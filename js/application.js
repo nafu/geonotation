@@ -20,6 +20,11 @@ var NotesApp = (function(){
       if(!this.get('body')){
         this.set({body: "No Content"});
       };
+    },
+
+    // Returns true if the Note is tagged with location data
+    isGeoTagged: function(){
+      return this.get('latitude') && this.get('longitude');
     }
 
   });

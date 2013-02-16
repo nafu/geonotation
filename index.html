@@ -73,6 +73,10 @@
     </div>
     <div data-role="content">
       <%= note.get('body') %>
+      <% if(note.isGeoTagged()){ %>
+        <h3>Location</h3>
+        [<%= note.get('latitude') %>, <%= note.get('longitude') %>]
+      <% } /*end if*/ %>
     </div>
   </script>
 
