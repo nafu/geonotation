@@ -77,6 +77,30 @@ var NotesApp = (function(){
     }
   });
 
+  var NearestPageView = Backbone.View.extend({
+    events: {
+      'click .locate': 'updateLocation'
+    },
+
+    initialize: function(options){
+      this.listView = options.listView;
+    },
+
+    updateLocation: function(e){
+      var pageView = this;
+
+      if('geolocation' in navigator){
+        navigator.geolocation.getCurrentPosition(function(position){
+          if(position && position.coords){
+            // Set Current Location
+            App.currentLocation = position.coords;
+            pageView.listView.collection.sort();
+          }
+        });
+      }
+    }
+  });
+
   // Views
   var NewFormView = Backbone.View.extend({
     events: {
@@ -233,6 +257,12 @@ var NotesApp = (function(){
     }
   });
 
+  App.collections.notes_distance = new NoteList(null, {
+    comparator: function(note){
+      return 0;
+    }
+  });
+
   App.views.new_form = new NewFormView({
     el: $('#new'),
   });
@@ -244,6 +274,16 @@ var NotesApp = (function(){
 
   App.views.notes = new NoteDetailList({
     collection: App.collections.all_notes
+  });
+
+  App.views.list_distance = new NoteListView({
+    el: $('#nearest_notes'),
+    collection: App.collections.notes_distance
+  });
+
+  App.views.nearest_page = new NearestPageView({
+    el: $('#nearest'),
+    listView: App.views.list_distance
   });
 
   return App;
