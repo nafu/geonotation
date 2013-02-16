@@ -122,7 +122,7 @@ var NotesApp = (function(){
   // Container for NoteDetailView
   // Respansible for generating each NoteDetailView
   var NoteDetailList = Backbone.View.extend({
-    el: $('#note-detail-list'),
+    el: $('body'),
 
     initialize: function(){
       _.bindAll(this, 'addOne', 'addAll');
@@ -143,7 +143,7 @@ var NotesApp = (function(){
     },
 
     addAll: function(){
-      $(this.el).empty();
+      $('div[id="note_"]').remove();
       this.collection.each(this.addOne);
     }
   });
