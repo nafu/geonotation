@@ -58,6 +58,10 @@ var NotesApp = (function(){
 
       var url = base + $.param(options);
       return url;
+    },
+
+    distanceFromCurrent: function(){
+      return Math.random();
     }
 
   });
@@ -95,6 +99,7 @@ var NotesApp = (function(){
             // Set Current Location
             App.currentLocation = position.coords;
             pageView.listView.collection.sort();
+            pageView.listView.collection.fetch();
           }
         });
       }
@@ -259,7 +264,7 @@ var NotesApp = (function(){
 
   App.collections.notes_distance = new NoteList(null, {
     comparator: function(note){
-      return 0;
+      return note.distanceFromCurrent();
     }
   });
 
