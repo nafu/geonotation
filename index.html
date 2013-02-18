@@ -75,7 +75,10 @@
   </div>
 
   <script type="text/template" id="note-list-item-template">
-    <a href="#note_<%= note.id %>"><%= note.get('title') %></a>
+    <a href="#note_<%= note.id %>">
+      <%= note.get('title') %>
+      (<%= note.distanceFromCurrent() %>)
+    </a>
   </script>
 
   <script type="text/template" id="note-detail-template">
