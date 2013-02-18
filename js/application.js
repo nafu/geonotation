@@ -1,4 +1,12 @@
 var NotesApp = (function(){
+
+  var debug = false;
+
+  function fuzzCoords(coords){
+    coords.latitude += (Math.random() - 0.5) * 0.1;
+    coords.longitude += (Math.random() - 0.5) * 0.1;
+  }
+
   var App = {
     stores: {},
     views: {},
@@ -161,6 +169,11 @@ var NotesApp = (function(){
             attrs.latitude = position.coords.latitude;
             attrs.longitude = position.coords.longitude;
           }
+
+          if(debug){
+            fuzzCoords(attrs);
+          }
+
           create();
         });
       }else{
